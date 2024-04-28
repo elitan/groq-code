@@ -23,6 +23,11 @@ export function Home() {
       const prompt = promptRef.current;
       const previousPrompt = previousPromptRef.current;
 
+      if (prompt === "") {
+        setResult("");
+        return;
+      }
+
       if (prompt === previousPrompt) {
         return;
       }
@@ -45,27 +50,52 @@ export function Home() {
   }, []); // Empty dependency array to set up the interval once
 
   return (
-    <div className="grid h-screen w-screen grid-cols-2 gap-8 p-12">
-      <div>
-        <textarea
-          value={prompt}
-          onChange={(e) => setPrompt(e.target.value)}
-          className="w-full rounded bg-zinc-700 p-2 text-zinc-200"
-          rows={5}
-          autoFocus={true}
+    <div className="h-screen w-screen p-12">
+      <div className="grid h-full w-full grid-cols-2 gap-8">
+        <div>
+          <textarea
+            placeholder="Write what the program should do here."
+            value={prompt}
+            onChange={(e) => setPrompt(e.target.value)}
+            className="h-full w-full rounded bg-zinc-700 p-2 text-zinc-200"
+            rows={5}
+            autoFocus={true}
+          />
+        </div>
+        <CodeEditor
+          value={result}
+          language="python"
+          disabled={true}
+          padding={15}
+          style={{
+            fontFamily:
+              "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
+          }}
+          data-color-mode="dark"
         />
       </div>
-      <CodeEditor
-        value={result}
-        language="python"
-        disabled={true}
-        padding={15}
-        style={{
-          fontFamily:
-            "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
-        }}
-        data-color-mode="dark"
-      />
+      <div className="pt-6 text-center text-sm text-zinc-500">
+        By Johan (
+        <a href="https://x.com/elitasson" target="_blank" className="underline">
+          𝕏
+        </a>
+        ,{" "}
+        <a
+          href="https://www.linkedin.com/in/j4e/"
+          target="_blank"
+          className="underline"
+        >
+          LinkedIn)
+        </a>{" "}
+        - Open source at{" "}
+        <a
+          href="https://github.com/elitan/plato"
+          target="_blank"
+          className="underline"
+        >
+          GitHub
+        </a>
+      </div>
     </div>
   );
 }

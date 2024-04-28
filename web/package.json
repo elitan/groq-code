@@ -11,12 +11,13 @@
     "codegen": "kysely-codegen --dialect postgres --camel-case --out-file ./src/utils/kysely-types.d.ts"
   },
   "dependencies": {
-    "@clerk/nextjs": "^4.27.2",
     "@tanstack/react-query": "^4.36.1",
     "@trpc/client": "^10.43.6",
     "@trpc/react-query": "^10.43.6",
     "@trpc/server": "^10.43.6",
     "@types/pg": "^8.10.9",
+    "@uiw/react-textarea-code-editor": "^3.0.2",
+    "groq-sdk": "^0.3.2",
     "kysely": "^0.27.2",
     "kysely-codegen": "^0.11.0",
     "next": "^14.1.0",

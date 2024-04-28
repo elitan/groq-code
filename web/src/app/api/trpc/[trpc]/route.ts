@@ -3,7 +3,6 @@ import { type NextRequest } from "next/server";
 
 import { env } from "@/utils/env";
 import { appRouter } from "@/server/api/root";
-import { getAuth } from "@clerk/nextjs/server";
 import { createContextInner } from "@/server/api/trpc";
 
 const handler = (req: NextRequest) => {
@@ -12,11 +11,8 @@ const handler = (req: NextRequest) => {
     req,
     router: appRouter,
     createContext() {
-      const auth = getAuth(req);
-
       return createContextInner({
         req,
-        auth,
       });
     },
     onError:

@@ -3,6 +3,7 @@ import "@/styles/globals.css";
 import { Inter } from "next/font/google";
 import { cookies } from "next/headers";
 import { TRPCReactProvider } from "@/trpc/react";
+import PlausibleProvider from "next-plausible";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -25,9 +26,16 @@ export default function Layout(props: Props) {
   return (
     <html lang="en" data-color-mode="dark">
       <body className={`font-sans ${inter.variable} bg-zinc-900 text-zinc-100`}>
-        <TRPCReactProvider cookies={cookies().toString()}>
-          <div>{children}</div>
-        </TRPCReactProvider>
+        <PlausibleProvider
+          domain="groq-python.vercel.app"
+          customDomain="https://analytics.eliasson.me"
+          selfHosted={true}
+          enabled={process.env.VERCEL_ENV === "production"}
+        >
+          <TRPCReactProvider cookies={cookies().toString()}>
+            <div>{children}</div>
+          </TRPCReactProvider>
+        </PlausibleProvider>
       </body>
     </html>
   );

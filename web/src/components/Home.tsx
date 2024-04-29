@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import CodeEditor from "@uiw/react-textarea-code-editor";
 
 export function Home() {
-  const [previousPrompt, setPreviousPrompt] = useState<string>("");
   const [prompt, setPrompt] = useState("");
   const [result, setResult] = useState<string>("");
   const getGroqResultMutation = api.groq.getGroqResult.useMutation();
@@ -50,7 +49,7 @@ export function Home() {
   }, []); // Empty dependency array to set up the interval once
 
   return (
-    <div className="h-screen w-screen p-12">
+    <div className="h-screen w-screen p-8">
       <div className="grid h-full w-full grid-cols-2 gap-8">
         <div>
           <textarea
@@ -89,7 +88,7 @@ export function Home() {
         </a>{" "}
         - Open source at{" "}
         <a
-          href="https://github.com/elitan/plato"
+          href="https://github.com/elitan/groq-python"
           target="_blank"
           className="underline"
         >

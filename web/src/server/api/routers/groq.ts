@@ -28,10 +28,7 @@ export const groqRouter = createTRPCRouter({
         model: "llama3-8b-8192",
       });
 
-      // console.log(r);
-      // console.log(r.choices[0]?.message.content);
-
-      const result = r.choices[0]?.message.content;
+      const result = r.choices[0]?.message.content.replace(/^`+|`+$/g, "");
 
       if (!result) {
         throw new Error("No result");

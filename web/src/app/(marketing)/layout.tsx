@@ -27,7 +27,7 @@ export default function Layout(props: Props) {
     <html lang="en" data-color-mode="dark">
       <body className={`font-sans ${inter.variable} bg-zinc-900 text-zinc-100`}>
         <PlausibleProvider
-          domain="groq-python.vercel.app"
+          domain="groq-code.vercel.app"
           customDomain="https://analytics.eliasson.me"
           selfHosted={true}
           enabled={process.env.VERCEL_ENV === "production"}

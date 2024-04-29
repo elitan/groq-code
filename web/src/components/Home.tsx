@@ -64,18 +64,37 @@ export function Home() {
     <div className="w-screen p-8">
       <div className="grid w-full grid-cols-2 gap-8">
         <div>
-          <textarea
-            placeholder="Write what the program should do here..."
-            value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
-            className="w-full rounded border border-zinc-600 bg-zinc-800 p-2 text-zinc-200"
-            rows={3}
-            autoFocus={true}
-          />
+          <div>
+            <textarea
+              placeholder="Write what the program should do here..."
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              className="w-full rounded border border-zinc-600 bg-zinc-800 p-2 text-zinc-200"
+              rows={3}
+              autoFocus={true}
+            />
+            <div className="flex justify-between py-2 text-xs text-zinc-500">
+              <div>123</div>
+              <div>
+                Powered by{" "}
+                <a href="https://groq.com/" className="hover:underline">
+                  Groq
+                </a>{" "}
+                and{" "}
+                <a
+                  href="https://llama.meta.com/llama3/"
+                  className="hover:underline"
+                >
+                  LLaMA 3
+                </a>
+              </div>
+            </div>
+          </div>
           <div className="grid grid-cols-2 gap-4 py-10">
-            {examples.splice(0, 4).map((example) => {
+            {examples.splice(0, 4).map((example, i) => {
               return (
                 <div
+                  keu={i}
                   className="cursor-pointer rounded-md border border-zinc-600 bg-zinc-900 p-3 text-xs text-zinc-400 transition-all duration-150 ease-in-out hover:bg-zinc-800"
                   onClick={() => {
                     setPrompt(example);
@@ -117,14 +136,14 @@ export function Home() {
             target="_blank"
             className="underline"
           >
-            LinkedIn)
-          </a>{" "}
+            LinkedIn
+          </a>
+          ){" "}
         </div>
-        <div>Groq and LLaMA3</div>
         <div>
           Open source at{" "}
           <a
-            href="https://github.com/elitan/groq-python"
+            href="https://github.com/elitan/groq-code"
             target="_blank"
             className="underline"
           >

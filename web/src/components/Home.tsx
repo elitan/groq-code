@@ -2,6 +2,7 @@
 import { api } from "@/trpc/react";
 import { useEffect, useRef, useState } from "react";
 import CodeEditor from "@uiw/react-textarea-code-editor";
+import { Select } from "./ui";
 
 export function Home() {
   const examples = [
@@ -73,8 +74,15 @@ export function Home() {
               rows={3}
               autoFocus={true}
             />
-            <div className="flex justify-between py-2 text-xs text-zinc-500">
-              <div>123</div>
+            <div className="flex items-center justify-between py-2 text-xs text-zinc-500">
+              <div>
+                <Select name="status">
+                  <option value="active">Active</option>
+                  <option value="paused">Paused</option>
+                  <option value="delayed">Delayed</option>
+                  <option value="canceled">Canceled</option>
+                </Select>
+              </div>
               <div>
                 Powered by{" "}
                 <a href="https://groq.com/" className="hover:underline">
@@ -90,11 +98,12 @@ export function Home() {
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-4 py-10">
+          <div className="my-4 h-[1px] bg-gray-800" />
+          <div className="grid grid-cols-2 gap-4 py-4">
             {examples.splice(0, 4).map((example, i) => {
               return (
                 <div
-                  keu={i}
+                  key={i}
                   className="cursor-pointer rounded-md border border-zinc-600 bg-zinc-900 p-3 text-xs text-zinc-400 transition-all duration-150 ease-in-out hover:bg-zinc-800"
                   onClick={() => {
                     setPrompt(example);

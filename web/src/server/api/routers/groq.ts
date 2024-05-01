@@ -11,9 +11,6 @@ export const groqRouter = createTRPCRouter({
     .mutation(async ({ input }) => {
       const { prompt } = input;
 
-      console.log("return result");
-      console.log(`Hello ${prompt}`);
-
       const r = await groq.chat.completions.create({
         messages: [
           {
@@ -28,6 +25,9 @@ export const groqRouter = createTRPCRouter({
         model: "llama3-8b-8192",
       });
 
+      /**
+       * Remove ` from the start and end of the string
+       */
       const result = r.choices[0]?.message.content.replace(/^`+|`+$/g, "");
 
       if (!result) {

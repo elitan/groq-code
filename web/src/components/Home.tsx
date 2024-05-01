@@ -2,7 +2,6 @@
 import { api } from "@/trpc/react";
 import { useEffect, useRef, useState } from "react";
 import CodeEditor from "@uiw/react-textarea-code-editor";
-import { Select } from "./ui";
 
 export function Home() {
   const examples = [
@@ -76,22 +75,24 @@ export function Home() {
             />
             <div className="flex items-center justify-between py-2 text-xs text-zinc-500">
               <div>
-                <Select name="status">
+                {/* <Select name="status">
                   <option value="active">Active</option>
-                  <option value="paused">Paused</option>
-                  <option value="delayed">Delayed</option>
-                  <option value="canceled">Canceled</option>
-                </Select>
+                </Select> */}
               </div>
               <div>
                 Powered by{" "}
-                <a href="https://groq.com/" className="hover:underline">
+                <a
+                  href="https://groq.com/"
+                  className="hover:underline"
+                  target="_blank"
+                >
                   Groq
                 </a>{" "}
                 and{" "}
                 <a
                   href="https://llama.meta.com/llama3/"
                   className="hover:underline"
+                  target="_blank"
                 >
                   LLaMA 3
                 </a>

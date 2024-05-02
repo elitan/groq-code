@@ -2,6 +2,8 @@
 import { api } from "@/trpc/react";
 import { useEffect, useRef, useState } from "react";
 import CodeEditor from "@uiw/react-textarea-code-editor";
+import { Select } from "./ui";
+import { SUPPORTED_LANGUAGES } from "@/utils";
 
 export function Home() {
   const examples = [
@@ -17,37 +19,44 @@ export function Home() {
     "Write a script for a simple chatbot that can respond to predefined questions with predefined answers.",
   ];
   const [prompt, setPrompt] = useState("");
+  const [language, setLanguage] = useState("Python");
   const [result, setResult] = useState<string>("");
   const getGroqResultMutation = api.groq.getGroqResult.useMutation();
 
   const promptRef = useRef("");
   const previousPromptRef = useRef("");
+  const languageRef = useRef("");
+  const previousLanguageRef = useRef("");
 
   // keeps the promptRef.current in sync with the prompt state
   useEffect(() => {
     promptRef.current = prompt;
-  }, [prompt]);
+    languageRef.current = language;
+  }, [prompt, language]);
 
   // useEffect for running the interval
   useEffect(() => {
     const interval = setInterval(() => {
       const prompt = promptRef.current;
+      const language = languageRef.current;
       const previousPrompt = previousPromptRef.current;
+      const previousLanguage = previousLanguageRef.current;
 
       if (prompt === "") {
         setResult("");
         return;
       }
 
-      if (prompt === previousPrompt) {
+      if (prompt === previousPrompt && language === previousLanguage) {
         return;
       }
 
       // Update the previous prompt with the current
       previousPromptRef.current = prompt;
+      previousLanguageRef.current = language;
 
       getGroqResultMutation.mutate(
-        { prompt },
+        { prompt, language },
         {
           onSuccess: (d) => {
             setResult(d.result);
@@ -75,9 +84,20 @@ export function Home() {
             />
             <div className="flex items-center justify-between py-2 text-xs text-zinc-500">
               <div>
-                {/* <Select name="status">
-                  <option value="active">Active</option>
-                </Select> */}
+                <Select
+                  name={language}
+                  onChange={(e) => {
+                    setLanguage(e.target.value);
+                  }}
+                >
+                  {SUPPORTED_LANGUAGES.map((lang) => {
+                    return (
+                      <option key={lang} value={lang}>
+                        {lang}
+                      </option>
+                    );
+                  })}
+                </Select>
               </div>
               <div>
                 Powered by{" "}

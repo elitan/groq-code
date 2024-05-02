@@ -1,5 +1,5 @@
 <div align="center">
-  <h1>Groq Python</h1>
+  <h1>Groq Code</h1>
 </div>
 
 <br />

@@ -2,7 +2,7 @@ import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import { groq } from "@/utils/groq";
-
+import { env } from "../../../utils/env";
 export const groqRouter = createTRPCRouter({
   getGroqResult: publicProcedure
     .input(
@@ -14,7 +14,7 @@ export const groqRouter = createTRPCRouter({
     .mutation(async ({ input }) => {
       const { prompt, language } = input;
 
-      const SYSTEM_PROMPT = `The user will describe a program. Write the program using ${language} code based on the user's input. Respond only with the code. No explanations or other information. Only code.`;
+      const SYSTEM_PROMPT = `The user will describe a program. Write the program using '${language}' code based on the user's input. Respond only with the code. No explanations or other information. Only code.`;
 
       const r = await groq.chat.completions.create({
         messages: [
@@ -27,7 +27,7 @@ export const groqRouter = createTRPCRouter({
             content: prompt,
           },
         ],
-        model: "llama3-8b-8192",
+        model: env.MODEL,
       });
 
       /**

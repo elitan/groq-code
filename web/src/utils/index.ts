@@ -3,6 +3,7 @@ export const SUPPORTED_LANGUAGES = [
   "javascript",
   "php",
   "rust",
+  "laravel",
   "go",
   "java",
   "csharp",
@@ -10,5 +11,7 @@ export const SUPPORTED_LANGUAGES = [
   "postgresql",
   "c",
   "c++",
-  "solidity"
+  "solidity",
+  "excel formula",
+  "italian locale excel formula"
 ] as const;

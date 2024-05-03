@@ -6,4 +6,6 @@ export const SUPPORTED_LANGUAGES = [
   "go",
   "java",
   "csharp",
+  "mysql",
+  "postgresql"
 ] as const;

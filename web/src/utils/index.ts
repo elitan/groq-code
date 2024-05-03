@@ -1,9 +1,9 @@
 export const SUPPORTED_LANGUAGES = [
-  "Python",
-  "TypeScript",
-  "PHP",
-  "Rust",
-  "Go",
-  "Java",
-  "C#",
+  "python",
+  "javascript",
+  "php",
+  "rust",
+  "go",
+  "java",
+  "csharp",
 ] as const;

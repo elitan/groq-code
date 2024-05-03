@@ -139,7 +139,7 @@ export function Home() {
         <div>
           <CodeEditor
             value={result}
-            language="python"
+            language={language}
             disabled={true}
             padding={15}
             style={{

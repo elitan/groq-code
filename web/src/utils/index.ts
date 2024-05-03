@@ -9,6 +9,7 @@ export const SUPPORTED_LANGUAGES = [
   "csharp",
   "mysql",
   "postgresql",
+  "bash",
   "c",
   "c++",
   "solidity",

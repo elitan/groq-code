@@ -7,5 +7,8 @@ export const SUPPORTED_LANGUAGES = [
   "java",
   "csharp",
   "mysql",
-  "postgresql"
+  "postgresql",
+  "c",
+  "c++",
+  "solidity"
 ] as const;

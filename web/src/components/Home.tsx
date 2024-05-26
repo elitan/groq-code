@@ -1,9 +1,9 @@
 "use client";
-import { api } from "@/trpc/react";
 import { useEffect, useRef, useState } from "react";
 import CodeEditor from "@uiw/react-textarea-code-editor";
 import { Select } from "./ui";
 import { SUPPORTED_LANGUAGES } from "@/utils";
+import { useCompletion } from "ai/react";
 
 export function Home() {
   const examples = [
@@ -18,10 +18,13 @@ export function Home() {
     "Develop a small application that allows users to add, edit, delete, and view records stored in a SQLite database.",
     "Write a script for a simple chatbot that can respond to predefined questions with predefined answers.",
   ];
+
   const [prompt, setPrompt] = useState("");
   const [language, setLanguage] = useState("Python");
-  const [result, setResult] = useState<string>("");
-  const getGroqResultMutation = api.groq.getGroqResult.useMutation();
+
+  const { completion, stop, complete, isLoading } = useCompletion({
+    api: "/api/completion",
+  });
 
   const promptRef = useRef("");
   const previousPromptRef = useRef("");
@@ -34,6 +37,27 @@ export function Home() {
     languageRef.current = language;
   }, [prompt, language]);
 
+  function onCodeUpdate(props: { prompt?: string; language?: string } = {}) {
+    // stop previous completion if any
+    if (isLoading) {
+      stop();
+    }
+
+    const prompt = props.prompt ?? promptRef.current;
+    const language = props.language ?? languageRef.current;
+
+    // Update the previous prompt with the current
+    previousPromptRef.current = prompt;
+    previousLanguageRef.current = language;
+
+    // complete.
+    void complete(prompt, {
+      body: {
+        language: language,
+      },
+    });
+  }
+
   // useEffect for running the interval
   useEffect(() => {
     const interval = setInterval(() => {
@@ -41,6 +65,8 @@ export function Home() {
       const language = languageRef.current;
       const previousPrompt = previousPromptRef.current;
       const previousLanguage = previousLanguageRef.current;
+
+      console.log({ prompt, language, previousPrompt, previousLanguage });
 
       if (prompt === "") {
         setResult("");
@@ -51,21 +77,13 @@ export function Home() {
         return;
       }
 
-      // Update the previous prompt with the current
-      previousPromptRef.current = prompt;
-      previousLanguageRef.current = language;
+      if (isLoading) {
+        return;
+      }
 
-      getGroqResultMutation.mutate(
-        { prompt, language },
-        {
-          onSuccess: (d) => {
-            setResult(d.result);
-          },
-        },
-      );
-    }, 1000); // Interval set to run every second
+      onCodeUpdate({ prompt, language });
+    }, 2000);
 
-    // Cleanup the interval when the component unmounts
     return () => clearInterval(interval);
   }, []); // Empty dependency array to set up the interval once
 
@@ -87,7 +105,9 @@ export function Home() {
                 <Select
                   name={language}
                   onChange={(e) => {
-                    setLanguage(e.target.value);
+                    const language = e.target.value;
+                    setLanguage(language);
+                    onCodeUpdate({ language });
                   }}
                 >
                   {SUPPORTED_LANGUAGES.map((lang) => {
@@ -128,6 +148,7 @@ export function Home() {
                   className="cursor-pointer rounded-md border border-zinc-600 bg-zinc-900 p-3 text-xs text-zinc-400 transition-all duration-150 ease-in-out hover:bg-zinc-800"
                   onClick={() => {
                     setPrompt(example);
+                    onCodeUpdate({ prompt: example });
                   }}
                 >
                   {example}
@@ -138,7 +159,7 @@ export function Home() {
         </div>
         <div>
           <CodeEditor
-            value={result}
+            value={completion}
             language={language}
             disabled={true}
             padding={15}

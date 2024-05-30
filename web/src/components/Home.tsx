@@ -69,7 +69,6 @@ export function Home() {
       console.log({ prompt, language, previousPrompt, previousLanguage });
 
       if (prompt === "") {
-        setResult("");
         return;
       }
 
